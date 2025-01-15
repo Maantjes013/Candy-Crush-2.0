@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Candy : MonoBehaviour
 {
+    public DecalProjector specialTypeProjector;
+
     private bool isDragging = false;
     private Renderer candyRenderer;
 
@@ -12,11 +15,8 @@ public class Candy : MonoBehaviour
         get => _currentCoordinates;
         set
         {
-            if (_currentCoordinates != value)
-            {
-                _currentCoordinates = value;
-                name = "Candy " + _currentCoordinates;
-            }
+            _currentCoordinates = value;
+            name = "Candy " + _currentCoordinates;
         }
     }
     private CandyType _candyType;
@@ -31,7 +31,7 @@ public class Candy : MonoBehaviour
         }
     }
 
-    private GridFactory gridFactory;
+    private GridManager gridFactory;
 
     private Color currentColor;
     private const string colorField = "_BaseColor";
@@ -39,11 +39,15 @@ public class Candy : MonoBehaviour
     private Vector2 initialMousePosition;
     private float swipeThreshold = 50f;
 
+    public SpecialCandyType specialCandyType;
+
+
     // Start is called before the first frame update
     private void Awake()
     {
         candyRenderer = transform.GetComponent<Renderer>();
-        gridFactory = FindAnyObjectByType<GridFactory>();
+        gridFactory = FindAnyObjectByType<GridManager>();
+        specialTypeProjector.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -56,6 +60,18 @@ public class Candy : MonoBehaviour
 
         if (candyRenderer != null)
             candyRenderer.material.SetColor(colorField, currentColor);
+    }
+
+    /// <summary>
+    /// Change special candy type of this candy and show decal with corresponding material
+    /// </summary>
+    /// <param name="material"></param>
+    /// <param name="newSpecialCandyType"></param>
+    public void ChangeSpecialCandyType(Material material, SpecialCandyType newSpecialCandyType)
+    {
+        specialTypeProjector.gameObject.SetActive(true);
+        specialTypeProjector.material = material;
+        specialCandyType = newSpecialCandyType;
     }
 
     private void OnMouseDown()

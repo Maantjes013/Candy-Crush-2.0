@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112c8467e75341e49b5883e52fad6204, type: 3}
+  m_Name: VerticalDecal
+  m_EditorClassIdentifier: 
+  type: 1
+  decalMaterial: {fileID: 2100000, guid: 82237863e50795e4aa91d6bad6a1c7d4, type: 2}

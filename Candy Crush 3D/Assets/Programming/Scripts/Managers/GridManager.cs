@@ -4,7 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GridFactory : MonoBehaviour
+public class GridManager : MonoBehaviour
 {
     [Header("Grid Size")]
     [SerializeField] private int xSize;
@@ -14,6 +14,7 @@ public class GridFactory : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private Camera gridCamera;
     [SerializeField] private float animationTime;
+    [SerializeField] private DecalManager decalManager;
 
     [Header("Candy Prefab To Spawn")]
     [SerializeField]
