@@ -2,12 +2,34 @@ using UnityEngine;
 
 public class Candy : MonoBehaviour
 {
-    public static bool canConnect = false;
     private bool isDragging = false;
     private Renderer candyRenderer;
 
-    public Vector2 currentCoordinates;
-    public CandyType candyType;
+    private Vector2 _currentCoordinates;
+
+    public Vector2 CurrentCoordinates
+    {
+        get => _currentCoordinates;
+        set
+        {
+            if (_currentCoordinates != value)
+            {
+                _currentCoordinates = value;
+                name = "Candy " + _currentCoordinates;
+            }
+        }
+    }
+    private CandyType _candyType;
+
+    public CandyType CandyType
+    {
+        get => _candyType;
+        set
+        {
+            _candyType = value;
+            OnCandyTypeChanged();
+        }
+    }
 
     private GridFactory gridFactory;
 
@@ -24,20 +46,18 @@ public class Candy : MonoBehaviour
         gridFactory = FindAnyObjectByType<GridFactory>();
     }
 
+    /// <summary>
+    /// Change color automatically if candy type changes
+    /// </summary>
     public void OnCandyTypeChanged()
     {
-        Color parsedColor;
-        if (ColorUtility.TryParseHtmlString(candyType.ToString(), out parsedColor))
-        {
+        if (ColorUtility.TryParseHtmlString(_candyType.ToString(), out Color parsedColor))
             currentColor = parsedColor;
-            Debug.Log($"Color set to {parsedColor}");
-        }
 
         if (candyRenderer != null)
-        {
             candyRenderer.material.SetColor(colorField, currentColor);
-        }
     }
+
     private void OnMouseDown()
     {
         initialMousePosition = Input.mousePosition;
@@ -61,47 +81,32 @@ public class Candy : MonoBehaviour
         {
             gridFactory.CheckCandySwap(this, swapDirection);
         }
-
-        initialMousePosition.Set(0, 0);
     }
 
+    /// <summary>
+    /// Determine drag direction of the player
+    /// </summary>
+    /// <param name="dragDirection"></param>
+    /// <returns>Drag direction</returns>
     private Vector2 GetDragDirection(Vector2 dragDirection)
     {
-        // Determine the direction based on the larger axis (X or Y)
         if (Mathf.Abs(dragDirection.x) > Mathf.Abs(dragDirection.y))
         {
-            // Horizontal swipe (left or right)
             if (dragDirection.x > 0)
                 return Vector2.right;
             else
                 return Vector2.left;
         }
+
+        if (dragDirection.y > 0)
+            return Vector2.up;
         else
-        {
-            // Vertical swipe (up or down)
-            if (dragDirection.y > 0)
-                return Vector2.up;
-            else
-                return Vector2.down;
-        }
-    }
-
-    //private void ActivateEffect(int effectIndex)
-    //{
-    //    Effect eff = EffectCatalogue.Instance.GetEffect(effectIndex);
-    //    eff.gameObject.SetActive(true);
-    //    eff.ActivateEffect();
-    //}
-
-    private void DestroyCandy()
-    {
-
+            return Vector2.down;
     }
 
     //private void SpawnDestroyParticles()
     //{
     //    GameObject particle = Instantiate(destroyedParticle, transform.position, Quaternion.identity);
     //    particle.GetComponent<Renderer>().material.SetColor("_BaseColor", currentColor);
-    //    FindObjectOfType<SoundManager>().PlayBlockBreak(particle);
     //}
 }
