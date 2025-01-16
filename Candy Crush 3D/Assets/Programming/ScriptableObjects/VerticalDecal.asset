@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: VerticalDecal
   m_EditorClassIdentifier: 
   type: 1
+  DirectionsToClear:
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
   decalMaterial: {fileID: 2100000, guid: 82237863e50795e4aa91d6bad6a1c7d4, type: 2}

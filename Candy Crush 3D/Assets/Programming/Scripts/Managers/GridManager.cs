@@ -14,7 +14,6 @@ public class GridManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private Camera gridCamera;
     [SerializeField] private float animationTime;
-    [SerializeField] private DecalManager decalManager;
 
     [Header("Candy Prefab To Spawn")]
     [SerializeField]
@@ -113,7 +112,7 @@ public class GridManager : MonoBehaviour
 
     public void CheckCandySwap(Candy selectedCandy, Vector2 swapDirection)
     {
-        if (isAnimationPlaying) 
+        if (isAnimationPlaying)
             return;
 
         Candy candyToSwap = MatchChecker.candyList.SingleOrDefault(x => x.CurrentCoordinates.Equals(selectedCandy.CurrentCoordinates + swapDirection));
@@ -138,6 +137,7 @@ public class GridManager : MonoBehaviour
 
         if (MatchChecker.CheckForMatchingCandy(selectedCandy, candyToSwap) != null && MatchChecker.matchedCandy.Count >= 3)
             DestroyCandy();
+
         else
             yield return StartCoroutine(AnimateCandySwap(selectedCandy, candyToSwap));
 

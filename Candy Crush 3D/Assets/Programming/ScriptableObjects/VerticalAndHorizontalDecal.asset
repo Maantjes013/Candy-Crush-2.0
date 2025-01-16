@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 112c8467e75341e49b5883e52fad6204, type: 3}
-  m_Name: BombDecal
+  m_Name: VerticalAndHorizontalDecal
   m_EditorClassIdentifier: 
-  type: 4
+  type: 3
   DirectionsToClear:
   - {x: 0, y: 1}
   - {x: 0, y: -1}
   - {x: 1, y: 0}
   - {x: -1, y: 0}
-  decalMaterial: {fileID: 2100000, guid: 536c5a673faccd248bb9f83d4b937e56, type: 2}
+  decalMaterial: {fileID: 2100000, guid: 414539bf3e4a5a14dba08c292ce62fc9, type: 2}

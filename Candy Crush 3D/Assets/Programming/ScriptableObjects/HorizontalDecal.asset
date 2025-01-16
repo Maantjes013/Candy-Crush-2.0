@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: HorizontalDecal
   m_EditorClassIdentifier: 
   type: 2
+  DirectionsToClear:
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}
   decalMaterial: {fileID: 2100000, guid: 9bbdb19a7fed5b84caa5053745daeca5, type: 2}

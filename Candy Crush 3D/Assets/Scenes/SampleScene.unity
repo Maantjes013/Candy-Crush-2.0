@@ -504,10 +504,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786e6a64740847c46a2780568ad28f99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decalConfigs:
+  specialEffectsConfig:
   - {fileID: 11400000, guid: 2098bef57ff55904a8bab2ee05235b0a, type: 2}
   - {fileID: 11400000, guid: 6327793da9b21eb43800f7b5bae0066e, type: 2}
   - {fileID: 11400000, guid: 832468eac2f2fd946bb40eb504880449, type: 2}
+  - {fileID: 11400000, guid: 513aaa35b5dffce4ea147c9fb3f4aba5, type: 2}
   - {fileID: 11400000, guid: d651127b0f3c93d42843711d307f9598, type: 2}
 --- !u!1 &832575517
 GameObject:

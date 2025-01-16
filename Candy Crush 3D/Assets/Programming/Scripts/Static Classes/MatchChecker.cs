@@ -1,18 +1,19 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class MatchChecker
 {
-    public static DecalManager decalManager;
+    public static SpecialCandyManager specialCandyManager;
 
     public static List<Candy> candyList = new();
     public static List<Candy> matchedCandy = new();
 
-    private static List<Candy> horizontalMatches = new();
-    private static List<Candy> verticalMatches = new();
+    private static readonly List<Candy> horizontalMatches = new();
+    private static readonly List<Candy> verticalMatches = new();
 
     /// <summary>
-    /// Check if either of the swapped candy is part of a connected row.
+    /// Check if either of the swapped candy is part of a connected row and remove duplicate items from match list.
     /// </summary>
     /// <param name="selectedCandy"></param>
     /// <param name="candyToSwap"></param>
@@ -23,10 +24,10 @@ public static class MatchChecker
 
         if (IsPartOfMatchingRow(selectedCandy))
         {
-            SpecialCandyType specialCandyType = CheckForCandyUpgrade(selectedCandy);
+            SpecialCandyType newSpecialCandyType = CheckForCandyUpgrade(selectedCandy);
 
-            if (!specialCandyType.Equals(SpecialCandyType.None))
-                selectedCandy.ChangeSpecialCandyType(decalManager.GetDecalMaterial(specialCandyType), specialCandyType);
+            if (!newSpecialCandyType.Equals(SpecialCandyType.None))
+                selectedCandy.ChangeSpecialCandyType(specialCandyManager.GetDecalMaterial(newSpecialCandyType), newSpecialCandyType);
         }
 
         if (IsPartOfMatchingRow(candyToSwap))
@@ -34,11 +35,25 @@ public static class MatchChecker
             SpecialCandyType specialCandyType = CheckForCandyUpgrade(candyToSwap);
 
             if (!specialCandyType.Equals(SpecialCandyType.None))
-                candyToSwap.ChangeSpecialCandyType(decalManager.GetDecalMaterial(specialCandyType), specialCandyType);
+                candyToSwap.ChangeSpecialCandyType(specialCandyManager.GetDecalMaterial(specialCandyType), specialCandyType);
         }
 
-        matchedCandy.ForEach(candy => Debug.Log(candy.name + " + "));
+        CheckForDestroyedSpecialCandy();
+
+        matchedCandy = matchedCandy.Distinct().ToList();
         return matchedCandy;
+    }
+
+    public static void CheckForDestroyedSpecialCandy()
+    {
+        List<Candy> specialCandyList = matchedCandy.FindAll(x => !x.specialCandyType.Equals(SpecialCandyType.None));
+        if (specialCandyList.Count > 0)
+        {
+            specialCandyList.ForEach(candy =>
+            {
+                matchedCandy.AddRange(specialCandyManager.ActivateSpecialEffect(candy));
+            });
+        }
     }
 
     /// <summary>
