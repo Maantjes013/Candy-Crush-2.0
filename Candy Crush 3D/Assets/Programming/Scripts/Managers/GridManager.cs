@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GridManager : MonoBehaviour
+public class GridManager : MonoSingleton<GridManager>
 {
     [Header("Grid Size")]
     [SerializeField] private int xSize;
@@ -19,12 +20,15 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private Candy candyPrefab;
 
+    private ScoreManager scoreManager;
+
     private bool isAnimationPlaying = false;
 
     private List<Vector2> spawnLocationList = new();
 
     private void Start()
     {
+        scoreManager = ScoreManager.Instance;
         PositionCamera();
         CreateGrid();
     }
@@ -136,7 +140,10 @@ public class GridManager : MonoBehaviour
         yield return StartCoroutine(AnimateCandySwap(selectedCandy, candyToSwap));
 
         if (MatchChecker.CheckForMatchingCandy(selectedCandy, candyToSwap) != null && MatchChecker.matchedCandy.Count >= 3)
+        {
+            scoreManager.UpdateScore(MatchChecker.matchedCandy.Count);
             DestroyCandy();
+        }
 
         else
             yield return StartCoroutine(AnimateCandySwap(selectedCandy, candyToSwap));

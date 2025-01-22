@@ -4,8 +4,6 @@ using UnityEngine;
 
 public static class MatchChecker
 {
-    public static SpecialCandyManager specialCandyManager;
-
     public static List<Candy> candyList = new();
     public static List<Candy> matchedCandy = new();
 
@@ -22,20 +20,21 @@ public static class MatchChecker
     {
         if (selectedCandy == null || candyToSwap == null) return null;
 
+        SpecialCandyType newSpecialCandyType;
         if (IsPartOfMatchingRow(selectedCandy))
         {
-            SpecialCandyType newSpecialCandyType = CheckForCandyUpgrade(selectedCandy);
+            newSpecialCandyType = CheckForCandyUpgrade(selectedCandy);
 
             if (!newSpecialCandyType.Equals(SpecialCandyType.None))
-                selectedCandy.ChangeSpecialCandyType(specialCandyManager.GetDecalMaterial(newSpecialCandyType), newSpecialCandyType);
+                selectedCandy.ChangeSpecialCandyType(newSpecialCandyType);
         }
 
         if (IsPartOfMatchingRow(candyToSwap))
         {
-            SpecialCandyType specialCandyType = CheckForCandyUpgrade(candyToSwap);
+            newSpecialCandyType = CheckForCandyUpgrade(candyToSwap);
 
-            if (!specialCandyType.Equals(SpecialCandyType.None))
-                candyToSwap.ChangeSpecialCandyType(specialCandyManager.GetDecalMaterial(specialCandyType), specialCandyType);
+            if (!newSpecialCandyType.Equals(SpecialCandyType.None))
+                candyToSwap.ChangeSpecialCandyType(newSpecialCandyType);
         }
 
         CheckForDestroyedSpecialCandy();
@@ -51,7 +50,7 @@ public static class MatchChecker
         {
             specialCandyList.ForEach(candy =>
             {
-                matchedCandy.AddRange(specialCandyManager.ActivateSpecialEffect(candy));
+                matchedCandy.AddRange(candy.specialCandyManager.ActivateSpecialEffect(candy));
             });
         }
     }

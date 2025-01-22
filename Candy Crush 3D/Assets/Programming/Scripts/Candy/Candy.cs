@@ -31,7 +31,8 @@ public class Candy : MonoBehaviour
         }
     }
 
-    private GridManager gridFactory;
+    private GridManager gridManager;
+    public SpecialCandyManager specialCandyManager;
 
     private Color currentColor;
     private const string colorField = "_BaseColor";
@@ -42,12 +43,16 @@ public class Candy : MonoBehaviour
     public SpecialCandyType specialCandyType;
 
 
-    // Start is called before the first frame update
     private void Awake()
     {
         candyRenderer = transform.GetComponent<Renderer>();
-        gridFactory = FindAnyObjectByType<GridManager>();
         specialTypeProjector.gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        gridManager = GridManager.Instance;
+        specialCandyManager = SpecialCandyManager.Instance;
     }
 
     /// <summary>
@@ -67,10 +72,10 @@ public class Candy : MonoBehaviour
     /// </summary>
     /// <param name="material"></param>
     /// <param name="newSpecialCandyType"></param>
-    public void ChangeSpecialCandyType(Material material, SpecialCandyType newSpecialCandyType)
-    {
+    public void ChangeSpecialCandyType(SpecialCandyType newSpecialCandyType)
+    {       
         specialTypeProjector.gameObject.SetActive(true);
-        specialTypeProjector.material = material;
+        specialTypeProjector.material = specialCandyManager.GetDecalMaterial(newSpecialCandyType);
         specialCandyType = newSpecialCandyType;
     }
 
@@ -95,7 +100,7 @@ public class Candy : MonoBehaviour
 
         if (Mathf.Abs(dragDirection.x) > swipeThreshold || Mathf.Abs(dragDirection.y) > swipeThreshold)
         {
-            gridFactory.CheckCandySwap(this, swapDirection);
+            gridManager.CheckCandySwap(this, swapDirection);
         }
     }
 

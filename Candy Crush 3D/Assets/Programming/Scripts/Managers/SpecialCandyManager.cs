@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SpecialCandyManager : MonoBehaviour
+public class SpecialCandyManager : MonoSingleton<SpecialCandyManager>
 {
     [SerializeField] private List<BlockDecalConfig> specialEffectsConfig;
 
@@ -10,8 +10,6 @@ public class SpecialCandyManager : MonoBehaviour
 
     private void Awake()
     {
-        MatchChecker.specialCandyManager = this;
-
         configLookup = new Dictionary<SpecialCandyType, BlockDecalConfig>();
         foreach (var config in specialEffectsConfig)
         {
